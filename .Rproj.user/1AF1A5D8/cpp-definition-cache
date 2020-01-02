@@ -1,0 +1,47 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 6,
+                "file" : "D://SC19085/src-i386/rw_Metro_C.cpp",
+                "kind" : 6,
+                "line" : 22,
+                "name" : "rw_Metro_C(double, double, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@rw_Metro_C#d#d#I#"
+            }
+        ],
+        "file" : "D://SC19085/src-i386/rw_Metro_C.cpp",
+        "file_last_write" : 1577996377.000000
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 6,
+                "file" : "D://SC19085/src-x64/rw_Metro_C.cpp",
+                "kind" : 6,
+                "line" : 22,
+                "name" : "rw_Metro_C(double, double, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@rw_Metro_C#d#d#I#"
+            }
+        ],
+        "file" : "D://SC19085/src-x64/rw_Metro_C.cpp",
+        "file_last_write" : 1577996386.000000
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 6,
+                "file" : "D://SC19085/src/rw_Metro_C.cpp",
+                "kind" : 6,
+                "line" : 22,
+                "name" : "rw_Metro_C(double, double, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@rw_Metro_C#d#d#I#"
+            }
+        ],
+        "file" : "D://SC19085/src/rw_Metro_C.cpp",
+        "file_last_write" : 1577987042.000000
+    }
+]

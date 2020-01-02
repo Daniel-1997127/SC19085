@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Jinming Liu" />
+
+<meta name="date" content="2020-01-03" />
+
+<title>Introduction to SC19085</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to SC19085</h1>
+<h4 class="author">Jinming Liu</h4>
+<h4 class="date">2020-01-03</h4>
+
+
+
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p><strong>SC19085</strong> is a simple R package developed to compare the performance of R and R++ (implemented through the R package <em>Rcpp</em>) for the ‘Statistical Computing’ course. Three functions are considered, namely, <em>rw_Metro</em> (generate random nubers using random walk Metropolis sampler); <em>Jaco</em> (calculate the eigenvalues and orthonormal eigenvectors for symmetric matrix using Jacobian method); <em>iter_thresh</em> (estimate the largest(absolute) eigenvalue and the corresponding unit eigenvector for a matrix). For each function, both R and Rcpp versions are produced. Namely <em>rw_Metro_R</em>, <em>Jaco_R</em> and <em>iter_thresh_R</em> for R and <em>rw_Metro_C</em>, <em>Jaco_C</em> and <em>iter_thresh_C</em> for C++.</p>
+<p>The R package ‘microbenchmark’ can be used to benchmark the above R and C++ functions.</p>
+</div>
+<div id="benchmarking-rw_metro_r-and-rw_metro_c" class="section level2">
+<h2>Benchmarking <em>rw_Metro_R</em> and <em>rw_Metro_C</em></h2>
+<p>The Cpp version of random walk metropolis <strong>rw_Metro_C</strong> is as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">  List <span class="kw">rw_Metro_C</span>(double sigma, double x0, int N, Function f) {</a>
+<a class="sourceLine" id="cb1-2" title="2">  </a>
+<a class="sourceLine" id="cb1-3" title="3">  NumericVector <span class="kw">x</span>(N);</a>
+<a class="sourceLine" id="cb1-4" title="4">  </a>
+<a class="sourceLine" id="cb1-5" title="5">  NumericVector u =<span class="st"> </span><span class="kw">runif</span>(N,<span class="dv">0</span>,<span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb1-6" title="6">  </a>
+<a class="sourceLine" id="cb1-7" title="7">  x[<span class="dv">0</span>]=x0;</a>
+<a class="sourceLine" id="cb1-8" title="8">  </a>
+<a class="sourceLine" id="cb1-9" title="9">  int k=<span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb1-10" title="10">  </a>
+<a class="sourceLine" id="cb1-11" title="11">  </a>
+<a class="sourceLine" id="cb1-12" title="12">  <span class="cf">for</span>(int <span class="dt">i=</span><span class="dv">1</span>;i<span class="op">&lt;</span>N;i<span class="op">++</span>){</a>
+<a class="sourceLine" id="cb1-13" title="13">    </a>
+<a class="sourceLine" id="cb1-14" title="14">    double y=<span class="st"> </span>as<span class="op">&lt;</span>double<span class="op">&gt;</span>(<span class="kw">rnorm</span>(<span class="dv">1</span>,x[i<span class="dv">-1</span>],sigma));</a>
+<a class="sourceLine" id="cb1-15" title="15">    double t1=as<span class="op">&lt;</span>double<span class="op">&gt;</span>(<span class="kw">f</span>(y));</a>
+<a class="sourceLine" id="cb1-16" title="16">    double t2=as<span class="op">&lt;</span>double<span class="op">&gt;</span>(<span class="kw">f</span>(x[i<span class="dv">-1</span>]));</a>
+<a class="sourceLine" id="cb1-17" title="17">    </a>
+<a class="sourceLine" id="cb1-18" title="18">    <span class="cf">if</span>(u[i]<span class="op">&lt;=</span><span class="st"> </span>t1<span class="op">/</span>t2){</a>
+<a class="sourceLine" id="cb1-19" title="19">      x[i]=y;}</a>
+<a class="sourceLine" id="cb1-20" title="20">    <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb1-21" title="21">      x[i] =<span class="st"> </span>x[i<span class="dv">-1</span>];</a>
+<a class="sourceLine" id="cb1-22" title="22">      k<span class="op">++</span>;</a>
+<a class="sourceLine" id="cb1-23" title="23">    }</a>
+<a class="sourceLine" id="cb1-24" title="24">  }</a>
+<a class="sourceLine" id="cb1-25" title="25">  </a>
+<a class="sourceLine" id="cb1-26" title="26">  return List<span class="op">::</span><span class="kw">create</span>(</a>
+<a class="sourceLine" id="cb1-27" title="27">    _[<span class="st">&quot;x&quot;</span>] =<span class="st"> </span>x, </a>
+<a class="sourceLine" id="cb1-28" title="28">    _[<span class="st">&quot;k&quot;</span>] =<span class="st"> </span>k,</a>
+<a class="sourceLine" id="cb1-29" title="29">    _[<span class="st">&quot;acceptance_rate&quot;</span>]=<span class="st"> </span>(double)(N<span class="dv">-1</span><span class="op">-</span>k)<span class="op">/</span>(N<span class="dv">-1</span>)</a>
+<a class="sourceLine" id="cb1-30" title="30">  );</a>
+<a class="sourceLine" id="cb1-31" title="31">}</a></code></pre></div>
+<p>In order to empirically benchmark <em>rw_Metro_R</em> and <em>rw_Metro_C</em>, one need to specify the initial points <strong>x0</strong>, the standard deviation of the random increment <strong>sigma</strong>, the total numbers of replicates <strong>N</strong>, and the target density function <strong>f</strong>. Take the standard Laplace ditribution as an example, the R code for benchmark <em>rw_Metro_R</em> and <em>rw_Metro_C</em> is as follows:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(SC19085)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">library</span>(microbenchmark)</a>
+<a class="sourceLine" id="cb2-3" title="3">sigma&lt;-<span class="dv">2</span></a>
+<a class="sourceLine" id="cb2-4" title="4">x0&lt;-<span class="dv">5</span></a>
+<a class="sourceLine" id="cb2-5" title="5">N&lt;-<span class="dv">1000</span></a>
+<a class="sourceLine" id="cb2-6" title="6">f&lt;-<span class="cf">function</span>(x) <span class="kw">return</span>(<span class="fl">0.5</span><span class="op">*</span><span class="kw">exp</span>(<span class="op">-</span><span class="kw">abs</span>(x)))</a>
+<a class="sourceLine" id="cb2-7" title="7"></a>
+<a class="sourceLine" id="cb2-8" title="8"> tm1 &lt;-<span class="st"> </span>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(</a>
+<a class="sourceLine" id="cb2-9" title="9">   <span class="dt">rwR =</span> <span class="kw">rw_Metro_R</span>(sigma,x0,N,f),</a>
+<a class="sourceLine" id="cb2-10" title="10">   <span class="dt">rwC =</span> <span class="kw">rw_Metro_C</span>(sigma,x0,N)</a>
+<a class="sourceLine" id="cb2-11" title="11">   )</a>
+<a class="sourceLine" id="cb2-12" title="12"> </a>
+<a class="sourceLine" id="cb2-13" title="13"> <span class="kw">print</span>(<span class="kw">summary</span>(tm1)[,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>)])</a></code></pre></div>
+<pre><code>##   expr      lq  median      uq
+## 1  rwR 2914.40 3023.40 3317.70
+## 2  rwC  146.55  157.65  167.15</code></pre>
+</div>
+<div id="benchmarking-jaco_r-and-jaco_c" class="section level2">
+<h2>Benchmarking <em>Jaco_R</em> and <em>Jaco_C</em></h2>
+<p>The Cpp version of Jacobian method <strong>Jaco_C</strong> is as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">List <span class="kw">Jaco_C</span>(MatrixXd A,double tol){</a>
+<a class="sourceLine" id="cb4-2" title="2">  <span class="op">/</span><span class="er">/</span>Environment <span class="kw">base</span>(<span class="st">&quot;package:base&quot;</span>);</a>
+<a class="sourceLine" id="cb4-3" title="3">  <span class="op">/</span><span class="er">/</span>Function atan=base[<span class="st">&quot;atan&quot;</span>];</a>
+<a class="sourceLine" id="cb4-4" title="4">  <span class="op">/</span><span class="er">/</span>Function isSymmetric=global[<span class="st">&quot;isSymmetric&quot;</span>];</a>
+<a class="sourceLine" id="cb4-5" title="5">  <span class="op">/</span><span class="er">/</span>Function stop=global[<span class="st">&quot;stop&quot;</span>];</a>
+<a class="sourceLine" id="cb4-6" title="6">  </a>
+<a class="sourceLine" id="cb4-7" title="7">  <span class="op">/</span><span class="er">/</span><span class="kw">stopifnot</span>(<span class="kw">isSymmetric</span>(A));</a>
+<a class="sourceLine" id="cb4-8" title="8"> </a>
+<a class="sourceLine" id="cb4-9" title="9">  int n =<span class="st"> </span><span class="kw">A.rows</span>();</a>
+<a class="sourceLine" id="cb4-10" title="10">  MatrixXd V =<span class="st"> </span>MatrixXd<span class="op">::</span><span class="kw">Identity</span>(n,n);</a>
+<a class="sourceLine" id="cb4-11" title="11">  MatrixXd D =<span class="st"> </span>MatrixXd<span class="op">::</span><span class="kw">Identity</span>(n,n);</a>
+<a class="sourceLine" id="cb4-12" title="12">  MatrixXd U;</a>
+<a class="sourceLine" id="cb4-13" title="13"> </a>
+<a class="sourceLine" id="cb4-14" title="14">  double maxpq=<span class="fl">0.0</span>,phi;</a>
+<a class="sourceLine" id="cb4-15" title="15">  int p,q;</a>
+<a class="sourceLine" id="cb4-16" title="16">  </a>
+<a class="sourceLine" id="cb4-17" title="17">  <span class="cf">for</span>(int <span class="dt">i=</span><span class="dv">0</span>;i<span class="op">&lt;</span>n<span class="dv">-1</span>;i<span class="op">++</span>){</a>
+<a class="sourceLine" id="cb4-18" title="18">    <span class="cf">for</span>( int <span class="dt">j=</span>i<span class="op">+</span><span class="dv">1</span>;j<span class="op">&lt;</span>n;j<span class="op">++</span>){</a>
+<a class="sourceLine" id="cb4-19" title="19">      <span class="cf">if</span>(<span class="kw">abs</span>(<span class="kw">A</span>(i,j))<span class="op">&gt;</span><span class="kw">abs</span>(maxpq)){</a>
+<a class="sourceLine" id="cb4-20" title="20">        maxpq=<span class="kw">A</span>(i,j);</a>
+<a class="sourceLine" id="cb4-21" title="21">         p=i;</a>
+<a class="sourceLine" id="cb4-22" title="22">         q=j;</a>
+<a class="sourceLine" id="cb4-23" title="23">      }</a>
+<a class="sourceLine" id="cb4-24" title="24">    }</a>
+<a class="sourceLine" id="cb4-25" title="25">  }</a>
+<a class="sourceLine" id="cb4-26" title="26"></a>
+<a class="sourceLine" id="cb4-27" title="27">  <span class="cf">while</span> (<span class="kw">abs</span>(maxpq)<span class="op">&gt;</span>tol){</a>
+<a class="sourceLine" id="cb4-28" title="28"> </a>
+<a class="sourceLine" id="cb4-29" title="29">    maxpq=<span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb4-30" title="30">    phi=<span class="fl">0.5</span><span class="op">*</span><span class="kw">atan2</span>(<span class="dv">2</span><span class="op">*</span><span class="kw">A</span>(p,q),<span class="kw">A</span>(p,p)<span class="op">-</span><span class="kw">A</span>(q,q));</a>
+<a class="sourceLine" id="cb4-31" title="31">    </a>
+<a class="sourceLine" id="cb4-32" title="32">    U =<span class="st"> </span>MatrixXd<span class="op">::</span><span class="kw">Identity</span>(n,n);</a>
+<a class="sourceLine" id="cb4-33" title="33">    <span class="kw">U</span>(p,p)=<span class="kw">cos</span>(phi);</a>
+<a class="sourceLine" id="cb4-34" title="34">    <span class="kw">U</span>(q,q)=<span class="kw">cos</span>(phi);</a>
+<a class="sourceLine" id="cb4-35" title="35">    <span class="kw">U</span>(p,q)=<span class="op">-</span><span class="kw">sin</span>(phi);</a>
+<a class="sourceLine" id="cb4-36" title="36">    <span class="kw">U</span>(q,p)=<span class="kw">sin</span>(phi);</a>
+<a class="sourceLine" id="cb4-37" title="37">    D=<span class="kw">U.transpose</span>()<span class="op">*</span>A<span class="op">*</span>U;</a>
+<a class="sourceLine" id="cb4-38" title="38">    V=V<span class="op">*</span>U;</a>
+<a class="sourceLine" id="cb4-39" title="39">    A=D;</a>
+<a class="sourceLine" id="cb4-40" title="40">    </a>
+<a class="sourceLine" id="cb4-41" title="41">    <span class="cf">for</span>(int <span class="dt">i=</span><span class="dv">0</span>;i<span class="op">&lt;</span>n<span class="dv">-1</span>;i<span class="op">++</span>){</a>
+<a class="sourceLine" id="cb4-42" title="42">      <span class="cf">for</span>(int <span class="dt">j=</span>i<span class="op">+</span><span class="dv">1</span>;j<span class="op">&lt;</span>n;j<span class="op">++</span>){</a>
+<a class="sourceLine" id="cb4-43" title="43">        <span class="cf">if</span>(<span class="kw">abs</span>(<span class="kw">A</span>(i,j))<span class="op">&gt;</span><span class="kw">abs</span>(maxpq)){</a>
+<a class="sourceLine" id="cb4-44" title="44">          maxpq=<span class="kw">A</span>(i,j);</a>
+<a class="sourceLine" id="cb4-45" title="45">          p=i;</a>
+<a class="sourceLine" id="cb4-46" title="46">          q=j;</a>
+<a class="sourceLine" id="cb4-47" title="47">        }</a>
+<a class="sourceLine" id="cb4-48" title="48">      }</a>
+<a class="sourceLine" id="cb4-49" title="49">    }</a>
+<a class="sourceLine" id="cb4-50" title="50">    </a>
+<a class="sourceLine" id="cb4-51" title="51">  </a>
+<a class="sourceLine" id="cb4-52" title="52">  }</a>
+<a class="sourceLine" id="cb4-53" title="53">  VectorXd values =<span class="st"> </span><span class="kw">A.diagonal</span>();</a>
+<a class="sourceLine" id="cb4-54" title="54">  return List<span class="op">::</span><span class="kw">create</span>(</a>
+<a class="sourceLine" id="cb4-55" title="55">    _[<span class="st">&quot;values&quot;</span>] =<span class="st"> </span>values, </a>
+<a class="sourceLine" id="cb4-56" title="56">    _[<span class="st">&quot;vectors&quot;</span>] =<span class="st"> </span>V</a>
+<a class="sourceLine" id="cb4-57" title="57">  );</a>
+<a class="sourceLine" id="cb4-58" title="58">  </a>
+<a class="sourceLine" id="cb4-59" title="59">}</a></code></pre></div>
+<p>In order to empirically benchmark <em>Jaco_R</em> and <em>Jaco_C</em>, one need to specify the symmetric matrix <strong>A</strong> and the tolerance of error (default value is .Machine$double.eps^0.25), The R code for benchmarking <em>Jaco_R</em> and <em>Jaco_C</em> is as follows.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">A&lt;-<span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">100</span>),<span class="dt">nrow=</span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>){</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="cf">for</span>(j <span class="cf">in</span> (i<span class="op">+</span><span class="dv">1</span>)<span class="op">:</span><span class="dv">10</span>) A[i,j]&lt;-A[j,i]</a>
+<a class="sourceLine" id="cb5-4" title="4"> }</a>
+<a class="sourceLine" id="cb5-5" title="5">JR &lt;-<span class="st"> </span><span class="kw">Jaco_R</span>(A,<span class="fl">1e-5</span>)</a>
+<a class="sourceLine" id="cb5-6" title="6">JR<span class="op">$</span>values</a></code></pre></div>
+<pre><code>##  [1]  4.7158497307  1.7234709541  1.0505821738  0.7465130718 -0.0002806092
+##  [6] -0.1201821963 -0.3638773892 -0.5357892433 -1.0712406139 -1.4978660485</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">eigen</span>(A)<span class="op">$</span>values</a></code></pre></div>
+<pre><code>##  [1]  4.7158497307  1.7234709541  1.0505821738  0.7465130718 -0.0002806091
+##  [6] -0.1201821959 -0.3638773896 -0.5357892433 -1.0712406140 -1.4978660485</code></pre>
+</div>
+<div id="benchmarking-iter_thresh_r-and-iter_thresh_c" class="section level2">
+<h2>Benchmarking <em>iter_thresh_R</em> and <em>iter_thresh_C</em></h2>
+<p>The Cpp version of iterative threshold method <strong>iter_thresh_C</strong> is as follows:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">List <span class="kw">iter_thresh_C</span>(MatrixXd S,MatrixXd u0,double <span class="dt">theta=</span><span class="fl">0.1</span>,</a>
+<a class="sourceLine" id="cb9-2" title="2">                   double <span class="dt">tol=</span><span class="fl">1e-4</span>) {</a>
+<a class="sourceLine" id="cb9-3" title="3">  </a>
+<a class="sourceLine" id="cb9-4" title="4">  MatrixXd u_old =<span class="st"> </span>u0;</a>
+<a class="sourceLine" id="cb9-5" title="5">  </a>
+<a class="sourceLine" id="cb9-6" title="6">  MatrixXd t =<span class="st"> </span>S<span class="op">*</span>u_old;</a>
+<a class="sourceLine" id="cb9-7" title="7">  </a>
+<a class="sourceLine" id="cb9-8" title="8">  int N =<span class="st"> </span><span class="kw">S.rows</span>();</a>
+<a class="sourceLine" id="cb9-9" title="9">  </a>
+<a class="sourceLine" id="cb9-10" title="10">  <span class="cf">for</span>(int <span class="dt">i =</span> <span class="dv">0</span>; i<span class="op">&lt;</span>N ;i<span class="op">++</span>){</a>
+<a class="sourceLine" id="cb9-11" title="11">    <span class="cf">if</span>(<span class="kw">abs</span>(<span class="kw">t</span>(i,<span class="dv">0</span>))<span class="op">&lt;</span>theta) <span class="kw">t</span>(i,<span class="dv">0</span>) =<span class="st"> </span><span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb9-12" title="12">  }</a>
+<a class="sourceLine" id="cb9-13" title="13">  </a>
+<a class="sourceLine" id="cb9-14" title="14">  double norm =<span class="st"> </span><span class="kw">t.norm</span>();</a>
+<a class="sourceLine" id="cb9-15" title="15">  </a>
+<a class="sourceLine" id="cb9-16" title="16">  MatrixXd u_new =<span class="st"> </span>t<span class="op">/</span>norm;</a>
+<a class="sourceLine" id="cb9-17" title="17">  </a>
+<a class="sourceLine" id="cb9-18" title="18">  int k=<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb9-19" title="19">  double loss =<span class="st"> </span>(u_new<span class="op">-</span>u_old)<span class="kw">.norm</span>();</a>
+<a class="sourceLine" id="cb9-20" title="20">  </a>
+<a class="sourceLine" id="cb9-21" title="21">  <span class="cf">while</span>(loss<span class="op">&gt;</span>tol){</a>
+<a class="sourceLine" id="cb9-22" title="22">    cout<span class="op">&lt;</span><span class="er">&lt;</span><span class="st">&quot;iteration:&quot;</span><span class="op">&lt;</span><span class="er">&lt;</span><span class="st"> </span>k <span class="op">&lt;</span><span class="er">&lt;</span><span class="st">&quot; &quot;</span><span class="op">&lt;</span><span class="er">&lt;</span><span class="st">&quot;loss is:&quot;</span><span class="op">&lt;</span><span class="er">&lt;</span><span class="st"> </span>loss <span class="op">&lt;</span><span class="er">&lt;</span>endl;</a>
+<a class="sourceLine" id="cb9-23" title="23">    u_old=u_new;</a>
+<a class="sourceLine" id="cb9-24" title="24">    t=S<span class="op">*</span>u_old;</a>
+<a class="sourceLine" id="cb9-25" title="25">    <span class="cf">for</span>(int <span class="dt">i=</span><span class="dv">0</span>; i<span class="op">&lt;</span>N ;i<span class="op">++</span>){</a>
+<a class="sourceLine" id="cb9-26" title="26">      <span class="cf">if</span>(<span class="kw">abs</span>(<span class="kw">t</span>(i,<span class="dv">0</span>))<span class="op">&lt;</span>theta) <span class="kw">t</span>(i,<span class="dv">0</span>)=<span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb9-27" title="27">    }</a>
+<a class="sourceLine" id="cb9-28" title="28">    norm=<span class="kw">t.norm</span>();</a>
+<a class="sourceLine" id="cb9-29" title="29">    u_new=t<span class="op">/</span>norm;</a>
+<a class="sourceLine" id="cb9-30" title="30">    k=k<span class="op">+</span><span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb9-31" title="31">    loss =<span class="st"> </span>(u_new<span class="op">-</span>u_old)<span class="kw">.norm</span>();</a>
+<a class="sourceLine" id="cb9-32" title="32">  }</a>
+<a class="sourceLine" id="cb9-33" title="33">  </a>
+<a class="sourceLine" id="cb9-34" title="34"> VectorXd eigenvalue =<span class="st"> </span><span class="kw">u_new.transpose</span>()<span class="op">*</span>S<span class="op">*</span>u_new;</a>
+<a class="sourceLine" id="cb9-35" title="35">  </a>
+<a class="sourceLine" id="cb9-36" title="36">  return List<span class="op">::</span><span class="kw">create</span>(</a>
+<a class="sourceLine" id="cb9-37" title="37">    _[<span class="st">&quot;eigen_vector&quot;</span>] =<span class="st"> </span>u_new, </a>
+<a class="sourceLine" id="cb9-38" title="38">    _[<span class="st">&quot;eigen_value&quot;</span>] =<span class="st"> </span>eigenvalue</a>
+<a class="sourceLine" id="cb9-39" title="39">  );</a>
+<a class="sourceLine" id="cb9-40" title="40">  </a>
+<a class="sourceLine" id="cb9-41" title="41">}</a></code></pre></div>
+<p>In order to empirically benchmark <em>iter_thresh_R</em> and <em>iter_thresh_C</em> , one need to specify a nxn matrix <strong>S</strong>, the initial eigen_vector(a nx1 matrix) <strong>u0</strong>, sparsity parameter <strong>theta</strong> and the tolerance of error (default value is 1e-4), The R code for benchmarking <em>iter_thresh_R</em> and <em>iter_thresh_C</em> is as follows.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">S&lt;-<span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">400</span>),<span class="dt">nrow=</span><span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb10-2" title="2">S&lt;-<span class="kw">t</span>(S)<span class="op">%*%</span>S</a>
+<a class="sourceLine" id="cb10-3" title="3">u0&lt;-<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">19</span>),<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb10-4" title="4">ITR &lt;-<span class="st"> </span><span class="kw">iter_thresh_R</span>(S,<span class="dt">u=</span>u0)</a></code></pre></div>
+<pre><code>## iteration: 1 loss is: 1.386387 
+## iteration: 2 loss is: 0.005562284</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">ITR</a></code></pre></div>
+<pre><code>## $eigen_vector
+##            [,1]
+##  [1,] 0.2296588
+##  [2,] 0.2186571
+##  [3,] 0.2322291
+##  [4,] 0.2154773
+##  [5,] 0.2306677
+##  [6,] 0.2259921
+##  [7,] 0.2081706
+##  [8,] 0.2066324
+##  [9,] 0.2674230
+## [10,] 0.1851486
+## [11,] 0.2815665
+## [12,] 0.2030812
+## [13,] 0.2420898
+## [14,] 0.2233534
+## [15,] 0.2042350
+## [16,] 0.1985422
+## [17,] 0.1921164
+## [18,] 0.2410846
+## [19,] 0.1880289
+## [20,] 0.2498916
+## 
+## $eigen_value
+## [1] 107.6051</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">eigen</span>(S)<span class="op">$</span>values[<span class="dv">1</span>]</a></code></pre></div>
+<pre><code>## [1] 107.6051</code></pre>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

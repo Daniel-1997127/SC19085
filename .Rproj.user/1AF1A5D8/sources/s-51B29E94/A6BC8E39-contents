@@ -1,0 +1,15 @@
+Package: SC19085
+Type: Package
+Title: Several functions for generating random numbers and calculating eigenvalues and eigenvectors. 
+Version: 1.0
+Date: 2020-01-01
+Author: Jinming Liu
+Maintainer: Jinming Liu <liujinming1997@163.com>
+Description: Several R and Rcpp function are included in this package for illustration. 
+License: GPL (>= 2)
+Imports: Rcpp (>= 0.12.16), RcppEigen, microbenchmark, knitr, rmarkdown
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+LinkingTo: Rcpp, RcppEigen
+RoxygenNote: 7.0.2
+Encoding:UTF-8

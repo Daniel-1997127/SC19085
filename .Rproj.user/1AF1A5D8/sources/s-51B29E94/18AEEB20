@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1577996730581.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2271599440",
+    "id" : "18AEEB20",
+    "lastKnownWriteTime" : 1577996537,
+    "last_content_update" : 1577996537,
+    "path" : "D://SC19085/vignettes/intro.Rmd",
+    "project_path" : "vignettes/intro.Rmd",
+    "properties" : {
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
