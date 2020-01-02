@@ -74,7 +74,7 @@ f<-function(x) return(0.5*exp(-abs(x)))
 ```
 
 
-## Benchmarking _Jaco_R_ and _Jaco_C_
+##  _Jaco_R_ and _Jaco_C_
 
 The Cpp version of Jacobian method **Jaco_C** is as follows:
 
@@ -143,7 +143,7 @@ List Jaco_C(MatrixXd A,double tol){
 ```
 
 
-In order to empirically benchmark _Jaco_R_ and _Jaco_C_, one need to specify the symmetric matrix **A** and the tolerance of error (default value is .Machine$double.eps^0.25), The R code for benchmarking _Jaco_R_ and _Jaco_C_ is as follows.
+In order to use _Jaco_R_ and _Jaco_C_, one need to specify the symmetric matrix **A** and the tolerance of error (default value is .Machine$double.eps^0.25), The R code for comparing  _Jaco_R_ and eigen is as follows.
 
 ```{r,eval=TRUE}
 
@@ -158,7 +158,7 @@ eigen(A)$values
 ```
 
 
-## Benchmarking _iter_thresh_R_ and _iter_thresh_C_
+##  _iter_thresh_R_ and _iter_thresh_C_
 
 The Cpp version of iterative threshold method **iter_thresh_C** is as follows:
 
@@ -207,8 +207,7 @@ List iter_thresh_C(MatrixXd S,MatrixXd u0,double theta=0.1,
 }
 ```
 
-In order to empirically benchmark _iter_thresh_R_ and _iter_thresh_C_
-, one need to specify a nxn matrix **S**, the initial eigen_vector(a nx1 matrix) **u0**, sparsity parameter **theta** and the tolerance of error (default value is 1e-4), The R code for benchmarking _iter_thresh_R_ and _iter_thresh_C_ is as follows.
+In order to use _iter_thresh_R_ and _iter_thresh_C_, one need to specify a nxn matrix **S**, the initial eigen_vector(a nx1 matrix) **u0**, sparsity parameter **theta** and the tolerance of error (default value is 1e-4), The R code for comparing  _iter_thresh_R_ and eigen is as follows.
 
 ```{r,eval=TRUE}
 

@@ -1,7 +1,6 @@
 #' @title  Jacobian method for calculating the eigenvalues and eigenvectors of a symmetric matrix  
 #' @description Jacobian method is for calculating the eigenvalues and orthonormal eigenvectors for a symmetric matrix 
 #' @param A a symmetric matrix
-#' @param x0 the initial iteration point
 #' @param tol the tolerance of error
 #' @return a list of length 2: values a vector of the estimated eigenvalues, vectors a matrix with each column as the corresponding unit eigenvector
 #' @examples

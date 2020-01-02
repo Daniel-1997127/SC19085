@@ -10,8 +10,6 @@ Jaco_R(A, tol = .Machine$double.eps^0.25)
 \item{A}{a symmetric matrix}
 
 \item{tol}{the tolerance of error}
-
-\item{x0}{the initial iteration point}
 }
 \value{
 a list of length 2: values a vector of the estimated eigenvalues, vectors a matrix with each column as the corresponding unit eigenvector

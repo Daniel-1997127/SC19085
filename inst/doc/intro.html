@@ -360,12 +360,12 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb2-11" title="11">   )</a>
 <a class="sourceLine" id="cb2-12" title="12"> </a>
 <a class="sourceLine" id="cb2-13" title="13"> <span class="kw">print</span>(<span class="kw">summary</span>(tm1)[,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>)])</a></code></pre></div>
-<pre><code>##   expr      lq  median      uq
-## 1  rwR 2914.40 3023.40 3317.70
-## 2  rwC  146.55  157.65  167.15</code></pre>
+<pre><code>##   expr     lq  median     uq
+## 1  rwR 2907.7 3153.90 4035.3
+## 2  rwC  150.8  164.85  186.2</code></pre>
 </div>
-<div id="benchmarking-jaco_r-and-jaco_c" class="section level2">
-<h2>Benchmarking <em>Jaco_R</em> and <em>Jaco_C</em></h2>
+<div id="jaco_r-and-jaco_c" class="section level2">
+<h2><em>Jaco_R</em> and <em>Jaco_C</em></h2>
 <p>The Cpp version of Jacobian method <strong>Jaco_C</strong> is as follows:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">List <span class="kw">Jaco_C</span>(MatrixXd A,double tol){</a>
 <a class="sourceLine" id="cb4-2" title="2">  <span class="op">/</span><span class="er">/</span>Environment <span class="kw">base</span>(<span class="st">&quot;package:base&quot;</span>);</a>
@@ -426,21 +426,21 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb4-57" title="57">  );</a>
 <a class="sourceLine" id="cb4-58" title="58">  </a>
 <a class="sourceLine" id="cb4-59" title="59">}</a></code></pre></div>
-<p>In order to empirically benchmark <em>Jaco_R</em> and <em>Jaco_C</em>, one need to specify the symmetric matrix <strong>A</strong> and the tolerance of error (default value is .Machine$double.eps^0.25), The R code for benchmarking <em>Jaco_R</em> and <em>Jaco_C</em> is as follows.</p>
+<p>In order to use <em>Jaco_R</em> and <em>Jaco_C</em>, one need to specify the symmetric matrix <strong>A</strong> and the tolerance of error (default value is .Machine$double.eps^0.25), The R code for comparing <em>Jaco_R</em> and eigen is as follows.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">A&lt;-<span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">100</span>),<span class="dt">nrow=</span><span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>){</a>
 <a class="sourceLine" id="cb5-3" title="3"><span class="cf">for</span>(j <span class="cf">in</span> (i<span class="op">+</span><span class="dv">1</span>)<span class="op">:</span><span class="dv">10</span>) A[i,j]&lt;-A[j,i]</a>
 <a class="sourceLine" id="cb5-4" title="4"> }</a>
 <a class="sourceLine" id="cb5-5" title="5">JR &lt;-<span class="st"> </span><span class="kw">Jaco_R</span>(A,<span class="fl">1e-5</span>)</a>
 <a class="sourceLine" id="cb5-6" title="6">JR<span class="op">$</span>values</a></code></pre></div>
-<pre><code>##  [1]  4.7158497307  1.7234709541  1.0505821738  0.7465130718 -0.0002806092
-##  [6] -0.1201821963 -0.3638773892 -0.5357892433 -1.0712406139 -1.4978660485</code></pre>
+<pre><code>##  [1]  5.472338687  1.416272463  1.234527045  0.724425031  0.222511507
+##  [6]  0.002722132 -0.172844474 -0.651908624 -0.998408655 -1.531122195</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">eigen</span>(A)<span class="op">$</span>values</a></code></pre></div>
-<pre><code>##  [1]  4.7158497307  1.7234709541  1.0505821738  0.7465130718 -0.0002806091
-##  [6] -0.1201821959 -0.3638773896 -0.5357892433 -1.0712406140 -1.4978660485</code></pre>
+<pre><code>##  [1]  5.472338687  1.416272463  1.234527045  0.724425031  0.222511507
+##  [6]  0.002722132 -0.172844475 -0.651908624 -0.998408655 -1.531122195</code></pre>
 </div>
-<div id="benchmarking-iter_thresh_r-and-iter_thresh_c" class="section level2">
-<h2>Benchmarking <em>iter_thresh_R</em> and <em>iter_thresh_C</em></h2>
+<div id="iter_thresh_r-and-iter_thresh_c" class="section level2">
+<h2><em>iter_thresh_R</em> and <em>iter_thresh_C</em></h2>
 <p>The Cpp version of iterative threshold method <strong>iter_thresh_C</strong> is as follows:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">List <span class="kw">iter_thresh_C</span>(MatrixXd S,MatrixXd u0,double <span class="dt">theta=</span><span class="fl">0.1</span>,</a>
 <a class="sourceLine" id="cb9-2" title="2">                   double <span class="dt">tol=</span><span class="fl">1e-4</span>) {</a>
@@ -483,41 +483,41 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb9-39" title="39">  );</a>
 <a class="sourceLine" id="cb9-40" title="40">  </a>
 <a class="sourceLine" id="cb9-41" title="41">}</a></code></pre></div>
-<p>In order to empirically benchmark <em>iter_thresh_R</em> and <em>iter_thresh_C</em> , one need to specify a nxn matrix <strong>S</strong>, the initial eigen_vector(a nx1 matrix) <strong>u0</strong>, sparsity parameter <strong>theta</strong> and the tolerance of error (default value is 1e-4), The R code for benchmarking <em>iter_thresh_R</em> and <em>iter_thresh_C</em> is as follows.</p>
+<p>In order to use <em>iter_thresh_R</em> and <em>iter_thresh_C</em>, one need to specify a nxn matrix <strong>S</strong>, the initial eigen_vector(a nx1 matrix) <strong>u0</strong>, sparsity parameter <strong>theta</strong> and the tolerance of error (default value is 1e-4), The R code for comparing <em>iter_thresh_R</em> and eigen is as follows.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">S&lt;-<span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">400</span>),<span class="dt">nrow=</span><span class="dv">20</span>)</a>
 <a class="sourceLine" id="cb10-2" title="2">S&lt;-<span class="kw">t</span>(S)<span class="op">%*%</span>S</a>
 <a class="sourceLine" id="cb10-3" title="3">u0&lt;-<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">19</span>),<span class="dv">1</span>))</a>
 <a class="sourceLine" id="cb10-4" title="4">ITR &lt;-<span class="st"> </span><span class="kw">iter_thresh_R</span>(S,<span class="dt">u=</span>u0)</a></code></pre></div>
-<pre><code>## iteration: 1 loss is: 1.386387 
-## iteration: 2 loss is: 0.005562284</code></pre>
+<pre><code>## iteration: 1 loss is: 1.389581 
+## iteration: 2 loss is: 0.002919221</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">ITR</a></code></pre></div>
 <pre><code>## $eigen_vector
 ##            [,1]
-##  [1,] 0.2296588
-##  [2,] 0.2186571
-##  [3,] 0.2322291
-##  [4,] 0.2154773
-##  [5,] 0.2306677
-##  [6,] 0.2259921
-##  [7,] 0.2081706
-##  [8,] 0.2066324
-##  [9,] 0.2674230
-## [10,] 0.1851486
-## [11,] 0.2815665
-## [12,] 0.2030812
-## [13,] 0.2420898
-## [14,] 0.2233534
-## [15,] 0.2042350
-## [16,] 0.1985422
-## [17,] 0.1921164
-## [18,] 0.2410846
-## [19,] 0.1880289
-## [20,] 0.2498916
+##  [1,] 0.1972642
+##  [2,] 0.2143497
+##  [3,] 0.1730015
+##  [4,] 0.2267263
+##  [5,] 0.1940161
+##  [6,] 0.2000741
+##  [7,] 0.2471470
+##  [8,] 0.2485283
+##  [9,] 0.2287929
+## [10,] 0.2315745
+## [11,] 0.2271244
+## [12,] 0.2260276
+## [13,] 0.2321515
+## [14,] 0.2299989
+## [15,] 0.2217491
+## [16,] 0.2048301
+## [17,] 0.2049665
+## [18,] 0.2148981
+## [19,] 0.2569791
+## [20,] 0.2692347
 ## 
 ## $eigen_value
-## [1] 107.6051</code></pre>
+## [1] 104.3452</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">eigen</span>(S)<span class="op">$</span>values[<span class="dv">1</span>]</a></code></pre></div>
-<pre><code>## [1] 107.6051</code></pre>
+<pre><code>## [1] 104.3452</code></pre>
 </div>
 
 
