@@ -4,7 +4,7 @@ Title: Several functions for generating random numbers and calculating eigenvalu
 Version: 1.0
 Date: 2020-01-01
 Author: Jinming Liu
-Maintainer: Jinming Liu <ljm1997@mail.ustc.edu.cn>
+Maintainer: Jinming Liu <liujinming1997@163.com>
 Description: Several R and Rcpp function are included in this package for illustration. 
 License: GPL (>= 2)
 Imports: Rcpp (>= 0.12.16), RcppEigen, microbenchmark, knitr, rmarkdown
