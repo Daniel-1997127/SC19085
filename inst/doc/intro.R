@@ -118,6 +118,7 @@ for(i in 1:9){
 for(j in (i+1):10) A[i,j]<-A[j,i]
  }
 JR <- Jaco_R(A,1e-5)
+t(JR$vectors)%*%JR$vectors
 JR$values
 eigen(A)$values
 

@@ -360,9 +360,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb2-11" title="11">   )</a>
 <a class="sourceLine" id="cb2-12" title="12"> </a>
 <a class="sourceLine" id="cb2-13" title="13"> <span class="kw">print</span>(<span class="kw">summary</span>(tm1)[,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>)])</a></code></pre></div>
-<pre><code>##   expr     lq  median     uq
-## 1  rwR 2907.7 3153.90 4035.3
-## 2  rwC  150.8  164.85  186.2</code></pre>
+<pre><code>##   expr     lq  median      uq
+## 1  rwR 2908.3 3201.00 3595.85
+## 2  rwC  144.7  156.15  171.45</code></pre>
 </div>
 <div id="jaco_r-and-jaco_c" class="section level2">
 <h2><em>Jaco_R</em> and <em>Jaco_C</em></h2>
@@ -432,92 +432,117 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb5-3" title="3"><span class="cf">for</span>(j <span class="cf">in</span> (i<span class="op">+</span><span class="dv">1</span>)<span class="op">:</span><span class="dv">10</span>) A[i,j]&lt;-A[j,i]</a>
 <a class="sourceLine" id="cb5-4" title="4"> }</a>
 <a class="sourceLine" id="cb5-5" title="5">JR &lt;-<span class="st"> </span><span class="kw">Jaco_R</span>(A,<span class="fl">1e-5</span>)</a>
-<a class="sourceLine" id="cb5-6" title="6">JR<span class="op">$</span>values</a></code></pre></div>
-<pre><code>##  [1]  5.472338687  1.416272463  1.234527045  0.724425031  0.222511507
-##  [6]  0.002722132 -0.172844474 -0.651908624 -0.998408655 -1.531122195</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">eigen</span>(A)<span class="op">$</span>values</a></code></pre></div>
-<pre><code>##  [1]  5.472338687  1.416272463  1.234527045  0.724425031  0.222511507
-##  [6]  0.002722132 -0.172844475 -0.651908624 -0.998408655 -1.531122195</code></pre>
+<a class="sourceLine" id="cb5-6" title="6"><span class="kw">t</span>(JR<span class="op">$</span>vectors)<span class="op">%*%</span>JR<span class="op">$</span>vectors</a></code></pre></div>
+<pre><code>##                [,1]          [,2]          [,3]          [,4]          [,5]
+##  [1,]  1.000000e+00  2.498002e-16 -9.714451e-17  2.775558e-17  9.714451e-17
+##  [2,]  2.498002e-16  1.000000e+00  0.000000e+00  2.081668e-17  8.326673e-17
+##  [3,] -9.714451e-17  0.000000e+00  1.000000e+00 -9.020562e-17  5.551115e-17
+##  [4,]  2.775558e-17  2.081668e-17 -9.020562e-17  1.000000e+00 -2.775558e-17
+##  [5,]  9.714451e-17  8.326673e-17  5.551115e-17 -2.775558e-17  1.000000e+00
+##  [6,]  1.526557e-16  8.326673e-17  9.714451e-17  9.714451e-17  4.163336e-17
+##  [7,]  1.144917e-16  3.816392e-17  1.431147e-16 -9.410875e-17  2.602085e-17
+##  [8,] -2.498002e-16 -2.220446e-16 -8.326673e-17  8.673617e-17  0.000000e+00
+##  [9,]  1.665335e-16  1.110223e-16 -5.551115e-17  1.318390e-16 -2.775558e-17
+## [10,] -2.185752e-16  2.220446e-16  7.632783e-17  5.464379e-17 -3.365364e-16
+##                [,6]          [,7]          [,8]          [,9]         [,10]
+##  [1,]  1.526557e-16  1.144917e-16 -2.498002e-16  1.665335e-16 -2.185752e-16
+##  [2,]  8.326673e-17  3.816392e-17 -2.220446e-16  1.110223e-16  2.220446e-16
+##  [3,]  9.714451e-17  1.431147e-16 -8.326673e-17 -5.551115e-17  7.632783e-17
+##  [4,]  9.714451e-17 -9.410875e-17  8.673617e-17  1.318390e-16  5.464379e-17
+##  [5,]  4.163336e-17  2.602085e-17  0.000000e+00 -2.775558e-17 -3.365364e-16
+##  [6,]  1.000000e+00 -1.049508e-16 -1.387779e-16  1.804112e-16 -3.469447e-18
+##  [7,] -1.049508e-16  1.000000e+00 -2.506675e-16  8.326673e-17 -2.385245e-18
+##  [8,] -1.387779e-16 -2.506675e-16  1.000000e+00  1.110223e-16 -1.734723e-16
+##  [9,]  1.804112e-16  8.326673e-17  1.110223e-16  1.000000e+00  1.665335e-16
+## [10,] -3.469447e-18 -2.385245e-18 -1.734723e-16  1.665335e-16  1.000000e+00</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">JR<span class="op">$</span>values</a></code></pre></div>
+<pre><code>##  [1]  5.2467306  1.2610475  0.8675350  0.8091233  0.4206246  0.1624893
+##  [7] -0.2273828 -0.8688452 -1.0486753 -1.7965975</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">eigen</span>(A)<span class="op">$</span>values</a></code></pre></div>
+<pre><code>##  [1]  5.2467306  1.2610475  0.8675350  0.8091233  0.4206246  0.1624893
+##  [7] -0.2273828 -0.8688452 -1.0486753 -1.7965975</code></pre>
+<p>The result shows that Jacobian method can estimate the eigenvalues and the eigenvectors accurately and achieve a comparable result with eigen.</p>
 </div>
 <div id="iter_thresh_r-and-iter_thresh_c" class="section level2">
 <h2><em>iter_thresh_R</em> and <em>iter_thresh_C</em></h2>
 <p>The Cpp version of iterative threshold method <strong>iter_thresh_C</strong> is as follows:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">List <span class="kw">iter_thresh_C</span>(MatrixXd S,MatrixXd u0,double <span class="dt">theta=</span><span class="fl">0.1</span>,</a>
-<a class="sourceLine" id="cb9-2" title="2">                   double <span class="dt">tol=</span><span class="fl">1e-4</span>) {</a>
-<a class="sourceLine" id="cb9-3" title="3">  </a>
-<a class="sourceLine" id="cb9-4" title="4">  MatrixXd u_old =<span class="st"> </span>u0;</a>
-<a class="sourceLine" id="cb9-5" title="5">  </a>
-<a class="sourceLine" id="cb9-6" title="6">  MatrixXd t =<span class="st"> </span>S<span class="op">*</span>u_old;</a>
-<a class="sourceLine" id="cb9-7" title="7">  </a>
-<a class="sourceLine" id="cb9-8" title="8">  int N =<span class="st"> </span><span class="kw">S.rows</span>();</a>
-<a class="sourceLine" id="cb9-9" title="9">  </a>
-<a class="sourceLine" id="cb9-10" title="10">  <span class="cf">for</span>(int <span class="dt">i =</span> <span class="dv">0</span>; i<span class="op">&lt;</span>N ;i<span class="op">++</span>){</a>
-<a class="sourceLine" id="cb9-11" title="11">    <span class="cf">if</span>(<span class="kw">abs</span>(<span class="kw">t</span>(i,<span class="dv">0</span>))<span class="op">&lt;</span>theta) <span class="kw">t</span>(i,<span class="dv">0</span>) =<span class="st"> </span><span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb9-12" title="12">  }</a>
-<a class="sourceLine" id="cb9-13" title="13">  </a>
-<a class="sourceLine" id="cb9-14" title="14">  double norm =<span class="st"> </span><span class="kw">t.norm</span>();</a>
-<a class="sourceLine" id="cb9-15" title="15">  </a>
-<a class="sourceLine" id="cb9-16" title="16">  MatrixXd u_new =<span class="st"> </span>t<span class="op">/</span>norm;</a>
-<a class="sourceLine" id="cb9-17" title="17">  </a>
-<a class="sourceLine" id="cb9-18" title="18">  int k=<span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb9-19" title="19">  double loss =<span class="st"> </span>(u_new<span class="op">-</span>u_old)<span class="kw">.norm</span>();</a>
-<a class="sourceLine" id="cb9-20" title="20">  </a>
-<a class="sourceLine" id="cb9-21" title="21">  <span class="cf">while</span>(loss<span class="op">&gt;</span>tol){</a>
-<a class="sourceLine" id="cb9-22" title="22">    cout<span class="op">&lt;</span><span class="er">&lt;</span><span class="st">&quot;iteration:&quot;</span><span class="op">&lt;</span><span class="er">&lt;</span><span class="st"> </span>k <span class="op">&lt;</span><span class="er">&lt;</span><span class="st">&quot; &quot;</span><span class="op">&lt;</span><span class="er">&lt;</span><span class="st">&quot;loss is:&quot;</span><span class="op">&lt;</span><span class="er">&lt;</span><span class="st"> </span>loss <span class="op">&lt;</span><span class="er">&lt;</span>endl;</a>
-<a class="sourceLine" id="cb9-23" title="23">    u_old=u_new;</a>
-<a class="sourceLine" id="cb9-24" title="24">    t=S<span class="op">*</span>u_old;</a>
-<a class="sourceLine" id="cb9-25" title="25">    <span class="cf">for</span>(int <span class="dt">i=</span><span class="dv">0</span>; i<span class="op">&lt;</span>N ;i<span class="op">++</span>){</a>
-<a class="sourceLine" id="cb9-26" title="26">      <span class="cf">if</span>(<span class="kw">abs</span>(<span class="kw">t</span>(i,<span class="dv">0</span>))<span class="op">&lt;</span>theta) <span class="kw">t</span>(i,<span class="dv">0</span>)=<span class="dv">0</span>;</a>
-<a class="sourceLine" id="cb9-27" title="27">    }</a>
-<a class="sourceLine" id="cb9-28" title="28">    norm=<span class="kw">t.norm</span>();</a>
-<a class="sourceLine" id="cb9-29" title="29">    u_new=t<span class="op">/</span>norm;</a>
-<a class="sourceLine" id="cb9-30" title="30">    k=k<span class="op">+</span><span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb9-31" title="31">    loss =<span class="st"> </span>(u_new<span class="op">-</span>u_old)<span class="kw">.norm</span>();</a>
-<a class="sourceLine" id="cb9-32" title="32">  }</a>
-<a class="sourceLine" id="cb9-33" title="33">  </a>
-<a class="sourceLine" id="cb9-34" title="34"> VectorXd eigenvalue =<span class="st"> </span><span class="kw">u_new.transpose</span>()<span class="op">*</span>S<span class="op">*</span>u_new;</a>
-<a class="sourceLine" id="cb9-35" title="35">  </a>
-<a class="sourceLine" id="cb9-36" title="36">  return List<span class="op">::</span><span class="kw">create</span>(</a>
-<a class="sourceLine" id="cb9-37" title="37">    _[<span class="st">&quot;eigen_vector&quot;</span>] =<span class="st"> </span>u_new, </a>
-<a class="sourceLine" id="cb9-38" title="38">    _[<span class="st">&quot;eigen_value&quot;</span>] =<span class="st"> </span>eigenvalue</a>
-<a class="sourceLine" id="cb9-39" title="39">  );</a>
-<a class="sourceLine" id="cb9-40" title="40">  </a>
-<a class="sourceLine" id="cb9-41" title="41">}</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">List <span class="kw">iter_thresh_C</span>(MatrixXd S,MatrixXd u0,double <span class="dt">theta=</span><span class="fl">0.1</span>,</a>
+<a class="sourceLine" id="cb11-2" title="2">                   double <span class="dt">tol=</span><span class="fl">1e-4</span>) {</a>
+<a class="sourceLine" id="cb11-3" title="3">  </a>
+<a class="sourceLine" id="cb11-4" title="4">  MatrixXd u_old =<span class="st"> </span>u0;</a>
+<a class="sourceLine" id="cb11-5" title="5">  </a>
+<a class="sourceLine" id="cb11-6" title="6">  MatrixXd t =<span class="st"> </span>S<span class="op">*</span>u_old;</a>
+<a class="sourceLine" id="cb11-7" title="7">  </a>
+<a class="sourceLine" id="cb11-8" title="8">  int N =<span class="st"> </span><span class="kw">S.rows</span>();</a>
+<a class="sourceLine" id="cb11-9" title="9">  </a>
+<a class="sourceLine" id="cb11-10" title="10">  <span class="cf">for</span>(int <span class="dt">i =</span> <span class="dv">0</span>; i<span class="op">&lt;</span>N ;i<span class="op">++</span>){</a>
+<a class="sourceLine" id="cb11-11" title="11">    <span class="cf">if</span>(<span class="kw">abs</span>(<span class="kw">t</span>(i,<span class="dv">0</span>))<span class="op">&lt;</span>theta) <span class="kw">t</span>(i,<span class="dv">0</span>) =<span class="st"> </span><span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb11-12" title="12">  }</a>
+<a class="sourceLine" id="cb11-13" title="13">  </a>
+<a class="sourceLine" id="cb11-14" title="14">  double norm =<span class="st"> </span><span class="kw">t.norm</span>();</a>
+<a class="sourceLine" id="cb11-15" title="15">  </a>
+<a class="sourceLine" id="cb11-16" title="16">  MatrixXd u_new =<span class="st"> </span>t<span class="op">/</span>norm;</a>
+<a class="sourceLine" id="cb11-17" title="17">  </a>
+<a class="sourceLine" id="cb11-18" title="18">  int k=<span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb11-19" title="19">  double loss =<span class="st"> </span>(u_new<span class="op">-</span>u_old)<span class="kw">.norm</span>();</a>
+<a class="sourceLine" id="cb11-20" title="20">  </a>
+<a class="sourceLine" id="cb11-21" title="21">  <span class="cf">while</span>(loss<span class="op">&gt;</span>tol){</a>
+<a class="sourceLine" id="cb11-22" title="22">    cout<span class="op">&lt;</span><span class="er">&lt;</span><span class="st">&quot;iteration:&quot;</span><span class="op">&lt;</span><span class="er">&lt;</span><span class="st"> </span>k <span class="op">&lt;</span><span class="er">&lt;</span><span class="st">&quot; &quot;</span><span class="op">&lt;</span><span class="er">&lt;</span><span class="st">&quot;loss is:&quot;</span><span class="op">&lt;</span><span class="er">&lt;</span><span class="st"> </span>loss <span class="op">&lt;</span><span class="er">&lt;</span>endl;</a>
+<a class="sourceLine" id="cb11-23" title="23">    u_old=u_new;</a>
+<a class="sourceLine" id="cb11-24" title="24">    t=S<span class="op">*</span>u_old;</a>
+<a class="sourceLine" id="cb11-25" title="25">    <span class="cf">for</span>(int <span class="dt">i=</span><span class="dv">0</span>; i<span class="op">&lt;</span>N ;i<span class="op">++</span>){</a>
+<a class="sourceLine" id="cb11-26" title="26">      <span class="cf">if</span>(<span class="kw">abs</span>(<span class="kw">t</span>(i,<span class="dv">0</span>))<span class="op">&lt;</span>theta) <span class="kw">t</span>(i,<span class="dv">0</span>)=<span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb11-27" title="27">    }</a>
+<a class="sourceLine" id="cb11-28" title="28">    norm=<span class="kw">t.norm</span>();</a>
+<a class="sourceLine" id="cb11-29" title="29">    u_new=t<span class="op">/</span>norm;</a>
+<a class="sourceLine" id="cb11-30" title="30">    k=k<span class="op">+</span><span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb11-31" title="31">    loss =<span class="st"> </span>(u_new<span class="op">-</span>u_old)<span class="kw">.norm</span>();</a>
+<a class="sourceLine" id="cb11-32" title="32">  }</a>
+<a class="sourceLine" id="cb11-33" title="33">  </a>
+<a class="sourceLine" id="cb11-34" title="34"> VectorXd eigenvalue =<span class="st"> </span><span class="kw">u_new.transpose</span>()<span class="op">*</span>S<span class="op">*</span>u_new;</a>
+<a class="sourceLine" id="cb11-35" title="35">  </a>
+<a class="sourceLine" id="cb11-36" title="36">  return List<span class="op">::</span><span class="kw">create</span>(</a>
+<a class="sourceLine" id="cb11-37" title="37">    _[<span class="st">&quot;eigen_vector&quot;</span>] =<span class="st"> </span>u_new, </a>
+<a class="sourceLine" id="cb11-38" title="38">    _[<span class="st">&quot;eigen_value&quot;</span>] =<span class="st"> </span>eigenvalue</a>
+<a class="sourceLine" id="cb11-39" title="39">  );</a>
+<a class="sourceLine" id="cb11-40" title="40">  </a>
+<a class="sourceLine" id="cb11-41" title="41">}</a></code></pre></div>
 <p>In order to use <em>iter_thresh_R</em> and <em>iter_thresh_C</em>, one need to specify a nxn matrix <strong>S</strong>, the initial eigen_vector(a nx1 matrix) <strong>u0</strong>, sparsity parameter <strong>theta</strong> and the tolerance of error (default value is 1e-4), The R code for comparing <em>iter_thresh_R</em> and eigen is as follows.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">S&lt;-<span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">400</span>),<span class="dt">nrow=</span><span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb10-2" title="2">S&lt;-<span class="kw">t</span>(S)<span class="op">%*%</span>S</a>
-<a class="sourceLine" id="cb10-3" title="3">u0&lt;-<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">19</span>),<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb10-4" title="4">ITR &lt;-<span class="st"> </span><span class="kw">iter_thresh_R</span>(S,<span class="dt">u=</span>u0)</a></code></pre></div>
-<pre><code>## iteration: 1 loss is: 1.389581 
-## iteration: 2 loss is: 0.002919221</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">ITR</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">S&lt;-<span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">400</span>),<span class="dt">nrow=</span><span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb12-2" title="2">S&lt;-<span class="kw">t</span>(S)<span class="op">%*%</span>S</a>
+<a class="sourceLine" id="cb12-3" title="3">u0&lt;-<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">19</span>),<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb12-4" title="4">ITR &lt;-<span class="st"> </span><span class="kw">iter_thresh_R</span>(S,<span class="dt">u=</span>u0)</a></code></pre></div>
+<pre><code>## iteration: 1 loss is: 1.417718 
+## iteration: 2 loss is: 0.003779034</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">ITR</a></code></pre></div>
 <pre><code>## $eigen_vector
 ##            [,1]
-##  [1,] 0.1972642
-##  [2,] 0.2143497
-##  [3,] 0.1730015
-##  [4,] 0.2267263
-##  [5,] 0.1940161
-##  [6,] 0.2000741
-##  [7,] 0.2471470
-##  [8,] 0.2485283
-##  [9,] 0.2287929
-## [10,] 0.2315745
-## [11,] 0.2271244
-## [12,] 0.2260276
-## [13,] 0.2321515
-## [14,] 0.2299989
-## [15,] 0.2217491
-## [16,] 0.2048301
-## [17,] 0.2049665
-## [18,] 0.2148981
-## [19,] 0.2569791
-## [20,] 0.2692347
+##  [1,] 0.2359723
+##  [2,] 0.2308122
+##  [3,] 0.1773937
+##  [4,] 0.2088723
+##  [5,] 0.1817948
+##  [6,] 0.2255147
+##  [7,] 0.2236862
+##  [8,] 0.2073223
+##  [9,] 0.2143497
+## [10,] 0.2422678
+## [11,] 0.2358427
+## [12,] 0.2029322
+## [13,] 0.2271732
+## [14,] 0.2776896
+## [15,] 0.2419202
+## [16,] 0.2420356
+## [17,] 0.2386350
+## [18,] 0.1636657
+## [19,] 0.2184943
+## [20,] 0.2455217
 ## 
 ## $eigen_value
-## [1] 104.3452</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">eigen</span>(S)<span class="op">$</span>values[<span class="dv">1</span>]</a></code></pre></div>
-<pre><code>## [1] 104.3452</code></pre>
+## [1] 110.251</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">eigen</span>(S)<span class="op">$</span>values[<span class="dv">1</span>]</a></code></pre></div>
+<pre><code>## [1] 110.251</code></pre>
+<p>The result shows that the iterative threshold method can estimate the largest(absolute) eigenvalue precisely as the function <strong>eigen</strong>, however, iter_thresh method can be much faster than eigen when the dimension of the matrix increases.</p>
 </div>
 
 

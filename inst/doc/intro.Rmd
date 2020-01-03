@@ -152,11 +152,13 @@ for(i in 1:9){
 for(j in (i+1):10) A[i,j]<-A[j,i]
  }
 JR <- Jaco_R(A,1e-5)
+t(JR$vectors)%*%JR$vectors
 JR$values
 eigen(A)$values
 
 ```
 
+The result shows that Jacobian method can estimate the eigenvalues and the eigenvectors accurately and achieve a comparable result with eigen.
 
 ##  _iter_thresh_R_ and _iter_thresh_C_
 
@@ -219,3 +221,7 @@ ITR
 eigen(S)$values[1]
 
 ```
+
+The result shows that the iterative threshold method can estimate the largest(absolute) eigenvalue precisely as the function **eigen**, however, iter_thresh method can be much faster than eigen when the dimension of the matrix increases.
+
+
